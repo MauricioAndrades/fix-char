@@ -1,0 +1,31 @@
+{
+  "name": "@op/fix-char",
+  "version": "1.0.0",
+  "description": "Fix unwanted Unicode characters (smart quotes, dashes, spaces, etc.) in text files",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "fix-char": "./dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "unicode",
+    "fix",
+    "quotes",
+    "dashes",
+    "sanitize",
+    "text"
+  ],
+  "author": "op",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^5.0.0"
+  }
+}
