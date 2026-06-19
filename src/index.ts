@@ -268,71 +268,84 @@ function reportDiff(
     appendFileSync(logFile, clean + "\n");
   };
 
-  console.log(`\x1b[36mChanged: ${file}\x1b[0m`);
-  logLine(`\n--- ${file} ---`);
+  const output = (msg: string): void => {
+    console.log(msg);
+    logLine(msg);
+  };
+
+  output(`\n## ${file}\n`);
 
   const originalLines = content.split("\n");
   const fixedLines = fixed.split("\n");
   let fixCount = 0;
 
+  const unwanted = buildUnwantedMap();
+  const describe = (c: string | undefined): string => {
+    if (c === undefined) return "EOF";
+    const code = c.charCodeAt(0);
+    if (code === 0x0d) return "CR (0x0D)";
+    if (code === 0x0a) return "LF (0x0A)";
+    if (code === 0x09) return "TAB (0x09)";
+    if (code === 0x20) return "SPACE (0x20)";
+    if (code < 32 || code > 126)
+      return `[${c}](0x${code.toString(16).toUpperCase()})`;
+    return `[${c}]`;
+  };
+
   for (let i = 0; i < Math.max(originalLines.length, fixedLines.length); i++) {
     const orig = originalLines[i] ?? "";
     const fix = fixedLines[i] ?? "";
     if (orig !== fix) {
-      const diffChars: number[] = [];
-      for (let j = 0; j < Math.max(orig.length, fix.length); j++) {
-        if (orig[j] !== fix[j]) diffChars.push(j);
-      }
-
-      if (hideEof) {
-        const hasOnlyEofFix = diffChars.every(
-          (j) => orig[j] === undefined || fix[j] === undefined
-        );
-        if (hasOnlyEofFix) continue;
-      }
-
-      fixCount++;
-      logLine(`Line ${i + 1}:`);
-
+      let jOrig = 0;
+      let jFix = 0;
       let diffMarkers = "";
       const changes: string[] = [];
-      for (let j = 0; j < Math.max(orig.length, fix.length); j++) {
-        const charOrig = orig[j];
-        const charFix = fix[j];
 
-        if (charOrig !== charFix) {
+      while (jOrig < orig.length || jFix < fix.length) {
+        const charOrig = orig[jOrig];
+        const charFix = fix[jFix];
+
+        if (charOrig === charFix) {
+          diffMarkers += " ";
+          jOrig++;
+          jFix++;
+        } else {
           if (hideEof && (charOrig === undefined || charFix === undefined)) {
             diffMarkers += " ";
+            if (charOrig !== undefined) jOrig++;
+            if (charFix !== undefined) jFix++;
             continue;
           }
-          diffMarkers += "^";
 
-          const describe = (c: string | undefined): string => {
-            if (c === undefined) return "EOF";
-            const code = c.charCodeAt(0);
-            if (code === 0x0d) return "CR (0x0D)";
-            if (code === 0x0a) return "LF (0x0A)";
-            if (code === 0x09) return "TAB (0x09)";
-            if (code === 0x20) return "SPACE (0x20)";
-            if (code < 32 || code > 126)
-              return `[${c}](0x${code.toString(16).toUpperCase()})`;
-            return `[${c}]`;
-          };
-
-          changes.push(`${describe(charOrig)} -> ${describe(charFix)}`);
-        } else {
-          diffMarkers += " ";
+          const fixItem = charOrig ? unwanted[charOrig] : undefined;
+          if (fixItem) {
+            changes.push(`${describe(charOrig)} -> ${describe(fixItem.replacement)}`);
+            for (let k = 0; k < Math.max(1, fixItem.replacement.length); k++) {
+              diffMarkers += "^";
+            }
+            jOrig++;
+            jFix += fixItem.replacement.length;
+          } else {
+            diffMarkers += "^";
+            changes.push(`${describe(charOrig)} -> ${describe(charFix)}`);
+            if (charOrig !== undefined) jOrig++;
+            if (charFix !== undefined) jFix++;
+          }
         }
       }
 
-      if (changes.length === 0 && hideEof) continue;
+      if (hideEof && changes.length === 0) continue;
 
-      logLine(`- ${orig}`);
-      logLine(`+ ${fix}`);
+      fixCount++;
+      output(`### Line ${i + 1}:\n`);
+      output("```ts");
+      output(`- ${orig}`);
+      output(`+ ${fix}`);
       if (changes.length > 0) {
-        logLine(`  ${diffMarkers}`);
-        logLine(`  Fixes: ${changes.join(", ")}`);
+        output(`  ${diffMarkers}`);
+        output(`  // Fixes: ${changes.join(", ")}`);
       }
+      output("```\n");
     }
   }
 

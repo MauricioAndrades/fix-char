@@ -192,32 +192,126 @@ fix-char "**/*.md" --write
 
 ## 🔤 Character Reference
 
-### Quotation Marks (U+2018–U+203A)
+Complete mapping of all replacements:
 
-| Input | Code | Output |
-|-------|------|--------|
-| `'` | U+2018 (Left single) | `'` |
-| `'` | U+2019 (Right single) | `'` |
-| `"` | U+201C (Left double) | `"` |
-| `"` | U+201D (Right double) | `"` |
+### Quotation Marks
 
-### Dashes & Hyphens (U+2010–U+2015)
+| Input | Code | Output | Description |
+|-------|------|--------|-------------|
+| `'` | U+2018 | `'` | Left single quotation mark |
+| `'` | U+2019 | `'` | Right single quotation mark |
+| `'` | U+201A | `'` | Single low-9 quotation mark |
+| `'` | U+201B | `'` | Single high-reversed-9 quotation mark |
+| `"` | U+201C | `"` | Left double quotation mark |
+| `"` | U+201D | `"` | Right double quotation mark |
+| `"` | U+201E | `"` | Double low-9 quotation mark |
+| `"` | U+201F | `"` | Double high-reversed-9 quotation mark |
+| `′` | U+2032 | `'` | Prime (feet/arcminutes) |
+| `″` | U+2033 | `"` | Double prime (inches/arcseconds) |
+| `‵` | U+2035 | `'` | Reversed prime |
+| `″` | U+2036 | `"` | Reversed double prime |
+| `«` | U+00AB | `"` | Left-pointing double angle quotation mark |
+| `»` | U+00BB | `"` | Right-pointing double angle quotation mark |
+| `‹` | U+2039 | `'` | Single left-pointing angle quotation mark |
+| `›` | U+203A | `'` | Single right-pointing angle quotation mark |
 
-| Input | Code | Output |
-|-------|------|--------|
-| `–` | U+2013 (en dash) | `-` |
-| `—` | U+2014 (em dash) | `--` |
-| `−` | U+2212 (minus) | `-` |
+### Dashes & Hyphens
 
-### Spaces & Invisible Characters (U+00A0, U+2000–U+200F)
+| Input | Code | Output | Description |
+|-------|------|--------|-------------|
+| `‐` | U+2010 | `-` | Hyphen |
+| `‑` | U+2011 | `-` | Non-breaking hyphen |
+| `‒` | U+2012 | `-` | Figure dash |
+| `–` | U+2013 | `-` | En dash |
+| `—` | U+2014 | `--` | Em dash |
+| `―` | U+2015 | `--` | Horizontal bar |
+| `−` | U+2212 | `-` | Minus sign |
+| `﹘` | U+FE58 | `-` | Small em dash |
+| `﹣` | U+FE63 | `-` | Small hyphen-minus |
+| `－` | U+FF0D | `-` | Fullwidth hyphen-minus |
 
-| Input | Code | Output |
-|-------|------|--------|
-| ` ` | U+00A0 (NBSP) | ` ` (space) |
-| `` | U+200B (zero-width) | (removed) |
-| `` | U+200D (joiner) | (removed) |
+### Spaces & Invisible Characters
 
-**Complete mapping:** See `src/index.ts`
+| Input | Code | Output | Description |
+|-------|------|--------|-------------|
+| ` ` | U+00A0 | ` ` | Non-breaking space |
+| ` ` | U+2000 | ` ` | En quad |
+| ` ` | U+2001 | ` ` | Em quad |
+| ` ` | U+2002 | ` ` | En space |
+| ` ` | U+2003 | ` ` | Em space |
+| ` ` | U+2004 | ` ` | Three-per-em space |
+| ` ` | U+2005 | ` ` | Four-per-em space |
+| ` ` | U+2006 | ` ` | Six-per-em space |
+| ` ` | U+2007 | ` ` | Figure space |
+| ` ` | U+2008 | ` ` | Punctuation space |
+| ` ` | U+2009 | ` ` | Thin space |
+| ` ` | U+200A | ` ` | Hair space |
+| `​` | U+200B | (removed) | Zero-width space |
+| `‌` | U+200C | (removed) | Zero-width non-joiner |
+| `‍` | U+200D | (removed) | Zero-width joiner |
+| `‎` | U+200E | (removed) | Left-to-right mark |
+| `‏` | U+200F | (removed) | Right-to-left mark |
+| ` ` | U+202F | ` ` | Narrow no-break space |
+| ` ` | U+205F | ` ` | Medium mathematical space |
+| `⁠` | U+2060 | (removed) | Word joiner |
+| `　` | U+3000 | ` ` | Ideographic space |
+| `﻿` | U+FEFF | (removed) | Zero-width no-break space / BOM |
+
+### Ellipsis & Punctuation
+
+| Input | Code | Output | Description |
+|-------|------|--------|-------------|
+| `…` | U+2026 | `...` | Horizontal ellipsis |
+| `․` | U+2024 | `.` | One dot leader |
+| `‥` | U+2025 | `..` | Two dot leader |
+| `‧` | U+2027 | `-` | Hyphenation point |
+| `⁄` | U+2044 | `/` | Fraction slash |
+| `∕` | U+2215 | `/` | Division slash |
+| `∖` | U+2216 | `\` | Set minus |
+| `∗` | U+2217 | `*` | Asterisk operator |
+| `∣` | U+2223 | `\|` | Divides |
+| `∥` | U+2225 | `\|\|` | Parallel |
+| `∶` | U+2236 | `:` | Ratio |
+| `∼` | U+223C | `~` | Tilde operator |
+| `≤` | U+2264 | `<=` | Less-than or equal to |
+| `≥` | U+2265 | `>=` | Greater-than or equal to |
+| `≠` | U+2260 | `!=` | Not equal to |
+
+### Fullwidth ASCII Variants (CJK Input)
+
+| Input | Code | Output | Description |
+|-------|------|--------|-------------|
+| `！` | U+FF01 | `!` | Fullwidth exclamation mark |
+| `＂` | U+FF02 | `"` | Fullwidth quotation mark |
+| `＃` | U+FF03 | `#` | Fullwidth number sign |
+| `＄` | U+FF04 | `$` | Fullwidth dollar sign |
+| `％` | U+FF05 | `%` | Fullwidth percent sign |
+| `＆` | U+FF06 | `&` | Fullwidth ampersand |
+| `＇` | U+FF07 | `'` | Fullwidth apostrophe |
+| `（` | U+FF08 | `(` | Fullwidth left parenthesis |
+| `）` | U+FF09 | `)` | Fullwidth right parenthesis |
+| `＊` | U+FF0A | `*` | Fullwidth asterisk |
+| `＋` | U+FF0B | `+` | Fullwidth plus sign |
+| `，` | U+FF0C | `,` | Fullwidth comma |
+| `．` | U+FF0E | `.` | Fullwidth full stop |
+| `／` | U+FF0F | `/` | Fullwidth solidus |
+| `：` | U+FF1A | `:` | Fullwidth colon |
+| `；` | U+FF1B | `;` | Fullwidth semicolon |
+| `＜` | U+FF1C | `<` | Fullwidth less-than |
+| `＝` | U+FF1D | `=` | Fullwidth equals |
+| `＞` | U+FF1E | `>` | Fullwidth greater-than |
+| `？` | U+FF1F | `?` | Fullwidth question mark |
+| `＠` | U+FF20 | `@` | Fullwidth at sign |
+| `［` | U+FF3B | `[` | Fullwidth left square bracket |
+| `＼` | U+FF3C | `\` | Fullwidth reverse solidus |
+| `］` | U+FF3D | `]` | Fullwidth right square bracket |
+| `＾` | U+FF3E | `^` | Fullwidth circumflex |
+| `＿` | U+FF3F | `_` | Fullwidth underscore |
+| `` ` `` | U+FF40 | `` ` `` | Fullwidth grave accent |
+| `｛` | U+FF5B | `{` | Fullwidth left curly bracket |
+| `｜` | U+FF5C | `\|` | Fullwidth vertical line |
+| `｝` | U+FF5D | `}` | Fullwidth right curly bracket |
+| `～` | U+FF5E | `~` | Fullwidth tilde |
 
 ## ✨ Pro Tips
 
